@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cipher Tool - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+</head>
+<body>
+  <div class="theme-toggle" id="fixedThemeToggle">
+    <button id="themeToggle" aria-label="Toggle Dark Mode">
+      <span class="light-icon"><i class="ri-moon-fill"></i></span>
+      <span class="dark-icon"><i class="ri-sun-fill"></i></span>
+    </button>
+  </div>
+
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <div class="container">
+        <div class="dashboard-header-content">
+          <div class="brand">
+            <h1>🔐 Cipher Tool</h1>
+          </div>
+         
+    </header>
+    
+    <main class="main-content">
+      <div class="container">
+        <div class="tabs">
+          <div class="tab active" data-tab="caesar">🔄 Caesar Cipher</div>
+          <div class="tab" data-tab="playfair">🔠 Playfair Cipher</div>
+          <div class="tab" data-tab="rsa">🔑 RSA Cipher</div>
+          <div class="tab" data-tab="bruteforce">💪 Brute Force</div>
+          <div class="tab" data-tab="tools">🛠️ Tools</div>
+        </div>
+
+        <!-- Caesar Cipher Tab -->
+        <div id="caesar" class="tab-content active">
+          <div class="card">
+            <h2 class="card-title">🔄 Caesar Cipher</h2>
+            
+            <div class="cipher-input-group">
+              <label for="caesar-text">✏️ Text</label>
+              <input type="text" id="caesar-text" class="form-control" placeholder="Enter text to encrypt or decrypt">
+              <div id="caesar-text-error" class="error-message">Please enter some text</div>
+            </div>
+            
+            <div class="cipher-input-group">
+              <label for="caesar-shift">🔢 Shift (Key)</label>
+              <input type="number" id="caesar-shift" class="form-control" placeholder="Enter shift value (1-25)" min="1" max="25" value="3">
+              <div id="caesar-shift-error" class="error-message">Please enter a valid shift value (1-25)</div>
+            </div>
+            
+            
+            <div class="cipher-actions">
+              <button id="caesar-encrypt" class="btn btn-primary">🔒 Encrypt</button>
+              <button id="caesar-decrypt" class="btn btn-primary">🔓 Decrypt</button>
+              <button id="caesar-clear" class="btn btn-danger">🧹 Clear</button>
+            </div>
+            
+            <div class="result-area">
+              <label for="caesar-result">📝 Result</label>
+              <div id="caesar-result" class="result-container"></div>
+              <button id="caesar-copy" class="btn btn-secondary copy-btn">📋 Copy Result</button>
+            </div>
+            
+            <div class="security-info">
+              <h4>🔐 Security Analysis</h4>
+              <p>Caesar cipher provides <span class="security-low">low security</span> as it only has 25 possible keys, making it vulnerable to brute force attacks.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Playfair Cipher Tab -->
+        <div id="playfair" class="tab-content">
+          <div class="card">
+            <h2 class="card-title">🔠 Playfair Cipher</h2>
+            
+            <div class="cipher-input-group">
+              <label for="playfair-text">✏️ Text</label>
+              <input type="text" id="playfair-text" class="form-control" placeholder="Enter text to encrypt or decrypt">
+              <div id="playfair-text-error" class="error-message">Please enter some text</div>
+            </div>
+            
+            <div class="cipher-input-group">
+              <label for="playfair-keyword">🔑 Keyword</label>
+              <input type="text" id="playfair-keyword" class="form-control" placeholder="Enter keyword for Playfair cipher" value="CIPHER">
+              <div id="playfair-keyword-error" class="error-message">Please enter a valid keyword (letters only)</div>
+            </div>
+            
+            
+            <div class="cipher-actions">
+              <button id="playfair-encrypt" class="btn btn-primary">🔒 Encrypt</button>
+              <button id="playfair-decrypt" class="btn btn-primary">🔓 Decrypt</button>
+              <button id="playfair-clear" class="btn btn-danger">🧹 Clear</button>
+              <button id="playfair-show-grid" class="btn btn-secondary">📊 Show Grid</button>
+            </div>
+            
+            <div class="result-area">
+              <label for="playfair-result">📝 Result</label>
+              <div id="playfair-result" class="result-container"></div>
+              <button id="playfair-copy" class="btn btn-secondary copy-btn">📋 Copy Result</button>
+            </div>
+            
+            <div id="playfair-grid-container" style="display: none; text-align: center;">
+              <h3 style="margin-top: 30px; margin-bottom: 15px;">📊 Playfair Grid</h3>
+              <div id="playfair-grid" class="playfair-grid"></div>
+              <div class="info-text">
+                <p>The Playfair cipher uses a 5×5 grid of letters constructed using the keyword. The grid serves as the key for encryption and decryption.</p>
+              </div>
+            </div>
+            
+            <div class="security-info">
+              <h4>🔐 Security Analysis</h4>
+              <p>Playfair cipher provides <span class="security-medium">medium security</span> as it encrypts letter pairs instead of single letters, making frequency analysis more difficult.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RSA Cipher Tab -->
+        <div id="rsa" class="tab-content">
+          <div class="card">
+            <h2 class="card-title">🔑 RSA Cipher</h2>
+            
+            <div class="cipher-input-group">
+              <label for="rsa-text">✏️ Text</label>
+              <textarea id="rsa-text" class="form-control" placeholder="Enter text to encrypt or decrypt" rows="4"></textarea>
+              <div id="rsa-text-error" class="error-message">Please enter some text</div>
+            </div>
+            
+            <div class="key-generation">
+              <div class="form-group">
+                <label>🔐 Key Pair</label>
+                <button id="rsa-generate-keys" class="btn btn-secondary">Generate New Keys</button>
+              </div>
+              
+              <div class="key-display">
+                <div class="key-group">
+                  <label for="rsa-public-key">📢 Public Key</label>
+                  <textarea id="rsa-public-key" class="form-control" readonly rows="2"></textarea>
+                </div>
+                <div class="key-group">
+                  <label for="rsa-private-key">🔏 Private Key</label>
+                  <textarea id="rsa-private-key" class="form-control" readonly rows="2"></textarea>
+                </div>
+              </div>
+              
+              <!-- <div class="cipher-option-group">
+                <div class="option-toggle">
+                  <input type="checkbox" id="rsa-advanced-mode" class="toggle-checkbox">
+                  <label for="rsa-advanced-mode">⚙️ Advanced Mode</label>
+                  <div class="info-tooltip">
+                    <span class="tooltip-text">Enable advanced settings for RSA encryption</span>
+                  </div>
+                </div>
+              </div> -->
+              
+              <div id="rsa-advanced-settings" class="advanced-settings" style="display: none;">
+                <h4>Advanced RSA Settings</h4>
+                <div class="form-group">
+                  <label for="rsa-key-size">Key Size:</label>
+                  <select id="rsa-key-size" class="form-control">
+                    <option value="small">Small (Demo Only)</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                  </select>
+                </div>
+                <div class="info-text">
+                  <p>Note: This is a simplified RSA implementation for educational purposes. Real-world RSA would use much larger prime numbers.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="cipher-actions">
+              <button id="rsa-encrypt" class="btn btn-primary">🔒 Encrypt</button>
+              <button id="rsa-decrypt" class="btn btn-primary">🔓 Decrypt</button>
+              <button id="rsa-clear" class="btn btn-danger">🧹 Clear</button>
+            </div>
+            
+            <div class="result-area">
+              <label for="rsa-result">📝 Result</label>
+              <div id="rsa-result" class="result-container"></div>
+              <button id="rsa-copy" class="btn btn-secondary copy-btn">📋 Copy Result</button>
+            </div>
+            
+            <div class="security-info">
+              <h4>🔐 Security Analysis</h4>
+              <p>RSA cipher provides <span class="security-high">high security</span> as it uses the mathematical complexity of factoring large prime numbers. It's the basis of many secure communications.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brute Force Tab -->
+        <div id="bruteforce" class="tab-content">
+          <div class="card">
+            <h2 class="card-title">💪 Brute Force Analysis</h2>
+            
+            <div class="cipher-input-group">
+              <label for="bf-text">✏️ Encrypted Text</label>
+              <textarea id="bf-text" class="form-control" placeholder="Enter encrypted text to analyze" rows="4"></textarea>
+              <div id="bf-text-error" class="error-message">Please enter some encrypted text</div>
+            </div>
+            
+            <div class="cipher-input-group">
+              <label for="bf-method">🔍 Cipher Method</label>
+              <select id="bf-method" class="form-control">
+                <option value="caesar">Caesar Cipher</option>
+                <option value="custom">Custom Analysis</option>
+                <option value="frequency">Advanced Frequency Analysis</option>
+              </select>
+            </div>
+            
+            
+            <div class="cipher-actions">
+              <button id="bf-analyze" class="btn btn-primary">🔍 Analyze</button>
+              <button id="bf-clear" class="btn btn-danger">🧹 Clear</button>
+            </div>
+            
+            <div class="result-area">
+              <h3>📊 Analysis Results</h3>
+              
+              <div id="bf-options" class="bf-options">
+                <div class="bf-option-group">
+                  <label>
+                    <input type="checkbox" id="bf-show-frequency" checked> 
+                    Show Letter Frequency Analysis
+                  </label>
+                </div>
+                <div class="bf-option-group">
+                  <label>
+                    <input type="checkbox" id="bf-show-patterns" checked> 
+                    Show Common Patterns
+                  </label>
+                </div>
+              </div>
+              
+              <div id="bf-results-container">
+                <div id="bf-frequency-chart" class="bf-chart"></div>
+                <div id="bf-security-analysis" class="security-analysis-container"></div>
+                <div id="bf-results" class="bf-results-grid"></div>
+              </div>
+              <button id="bf-copy" class="btn btn-secondary copy-btn">📋 Copy Results</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Additional Tools Tab -->
+        <div id="tools" class="tab-content">
+          <div class="card">
+            <h2 class="card-title">🛠️ Additional Tools</h2>
+            
+            <div class="tools-grid">
+              <div class="tool-card">
+                <h3>🔤 Text Transformer</h3>
+                <div class="tool-input-group">
+                  <textarea id="text-transform-input" class="form-control" placeholder="Enter text to transform..." rows="3"></textarea>
+                </div>
+                <div class="tool-actions">
+                  <button id="text-uppercase" class="btn btn-sm btn-secondary">UPPERCASE</button>
+                  <button id="text-lowercase" class="btn btn-sm btn-secondary">lowercase</button>
+                  <button id="text-reverse" class="btn btn-sm btn-secondary">Reverse</button>
+                  <button id="text-clear" class="btn btn-sm btn-danger">Clear</button>
+                </div>
+                <div class="tool-result">
+                  <div id="text-transform-result" class="result-container"></div>
+                  <button id="text-transform-copy" class="btn btn-sm btn-secondary copy-btn">📋 Copy</button>
+                </div>
+              </div>
+              
+              <div class="tool-card">
+                <h3>🔢 Hash Generator</h3>
+                <div class="tool-input-group">
+                  <input type="text" id="hash-input" class="form-control" placeholder="Enter text to hash...">
+                </div>
+                <div class="tool-actions">
+                  <select id="hash-algorithm" class="form-control">
+                    <option value="md5">MD5</option>
+                    <option value="sha1">SHA-1</option>
+                    <option value="sha256">SHA-256</option>
+                  </select>
+                  <button id="hash-generate" class="btn btn-sm btn-primary">Generate Hash</button>
+                  <button id="hash-clear" class="btn btn-sm btn-danger">Clear</button>
+                </div>
+                <div class="tool-result">
+                  <div id="hash-result" class="result-container"></div>
+                  <button id="hash-copy" class="btn btn-sm btn-secondary copy-btn">📋 Copy</button>
+                </div>
+              </div>
+              
+              <div class="tool-card">
+                <h3>🔍 Password Strength</h3>
+                <div class="tool-input-group">
+                  <input type="text" id="password-input" class="form-control" placeholder="Enter password to check...">
+                </div>
+                <div class="password-strength-meter">
+                  <div class="strength-bar">
+                    <div id="strength-meter" class="strength-fill"></div>
+                  </div>
+                  <p id="strength-text">Enter a password</p>
+                </div>
+                <div class="tool-result">
+                  <ul id="password-feedback" class="feedback-list"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </main>
+
+    <footer class="dashboard-footer">
+      <div class="container">
+        <p>🔐 Advanced Cipher Tool &copy; 2025</p>
+        <p>Created by IS Project Team</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="author.js"></script>
+  <script src="caesar.js"></script>
+  <script src="playfair.js"></script>
+  <script src="rsa.js"></script>
+  <script src="bruteforce.js"></script>
+  <script src="tools.js"></script>
+  <script src="ui.js"></script>
+  <script src="theme.js"></script>
+</body>
+</html>
